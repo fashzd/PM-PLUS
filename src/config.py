@@ -1,20 +1,13 @@
 """
 Configuration module for PM PLUS Python agents.
-Loads configuration from environment variables and agent_config.yaml.
+Loads configuration from environment variables only.
 """
 
 import os
-import yaml
-from pathlib import Path
-from typing import Dict, Any, Optional
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
-
-# Project root directory
-PROJECT_ROOT = Path(__file__).parent.parent
-
 
 class AgentConfig:
     """Configuration for a single agent."""
@@ -34,14 +27,6 @@ class AgentConfig:
         
         return cls(agent_id=agent_id, api_key=api_key)
     
-    @classmethod
-    def from_yaml(cls, config_dict: Dict[str, str]) -> 'AgentConfig':
-        """Load agent config from YAML dictionary."""
-        return cls(
-            agent_id=config_dict.get('agent_id', ''),
-            api_key=config_dict.get('api_key', '')
-        )
-
 
 class Config:
     """Main configuration class for PM PLUS."""
@@ -72,29 +57,10 @@ class Config:
         self._load_agent_configs()
     
     def _load_agent_configs(self):
-        """Load agent configurations from environment or YAML file."""
-        # Try loading from environment first
-        try:
-            self.risk_analyzer = AgentConfig.from_env('RISK_ANALYZER')
-            self.reporter = AgentConfig.from_env('REPORTER')
-            self.resource_balancer = AgentConfig.from_env('RESOURCE_BALANCER')
-            return
-        except ValueError:
-            pass
-        
-        # Fall back to agent_config.yaml
-        config_path = PROJECT_ROOT / 'agent_config.yaml'
-        if config_path.exists():
-            with open(config_path, 'r') as f:
-                yaml_config = yaml.safe_load(f)
-            
-            self.risk_analyzer = AgentConfig.from_yaml(yaml_config.get('risk_analyzer', {}))
-            self.reporter = AgentConfig.from_yaml(yaml_config.get('reporter', {}))
-            self.resource_balancer = AgentConfig.from_yaml(yaml_config.get('resource_balancer', {}))
-        else:
-            raise ValueError(
-                "Agent configuration not found. Please set environment variables or create agent_config.yaml"
-            )
+        """Load agent configurations from environment variables."""
+        self.risk_analyzer = AgentConfig.from_env('RISK_ANALYZER')
+        self.reporter = AgentConfig.from_env('REPORTER')
+        self.resource_balancer = AgentConfig.from_env('RESOURCE_BALANCER')
     
     def get_agent_config(self, agent_name: str) -> AgentConfig:
         """Get configuration for a specific agent."""

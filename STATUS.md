@@ -7,8 +7,7 @@ PM-PLUS/
 ├── src/          # Role 1 — Python agents (Risk Analyzer, Reporter, Resource Balancer)
 ├── api/          # Role 2 — TypeScript orchestration API + SSE
 ├── dashboard/    # Role 3 — React/Vite observability dashboard ✅ Built
-├── .env          # (see .env.example)
-└── agent_config.yaml
+└── .env          # agent IDs/API keys and runtime configuration (see .env.example)
 ```
 
 ---

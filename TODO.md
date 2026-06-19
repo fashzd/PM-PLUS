@@ -32,7 +32,7 @@ Optional: `python src/mock_collector.py` — fires fake check-ins to Band withou
 - Pydantic message types (`src/core/types.py`) — all message types defined
 - LLM client (`src/core/llm.py`) — aimlapi.com GPT-4o + featherless fallback
 - Mock collector (`src/mock_collector.py`) — posts Alice / Bob / Carol / Dave check-ins
-- Band agent config (`agent_config.yaml`) — all 3 agents have valid IDs and API keys
+- Band agent config is loaded from `.env` through `src/config.py`
 
 ### Resolved issue
 - No active known issue in the local deterministic flow. Risk Analyzer overwrites LLM-provided `flag_id` with a local UUID before posting PM alerts.

@@ -132,17 +132,14 @@ class ReporterAdapter(SimpleAdapter[list]):
 
 
 async def start_reporter(on_event=None):
-    from dotenv import load_dotenv
-    load_dotenv()
-
     from band import Agent
-    from band.config import load_agent_config
+    from config import get_config
 
-    agent_id, api_key = load_agent_config("reporter")
+    agent_config = get_config().get_agent_config("reporter")
 
     agent = Agent.create(
         adapter=ReporterAdapter(on_event=on_event),
-        agent_id=agent_id,
-        api_key=api_key,
+        agent_id=agent_config.agent_id,
+        api_key=agent_config.api_key,
     )
     await agent.run()

@@ -211,7 +211,7 @@ The API acts as a proxy for Band.ai operations:
 
 ### Agent Configuration
 
-Agents are configured via environment variables or `agent_config.yaml`:
+Agents are configured via environment variables loaded from `.env`:
 
 ```python
 # src/config.py
